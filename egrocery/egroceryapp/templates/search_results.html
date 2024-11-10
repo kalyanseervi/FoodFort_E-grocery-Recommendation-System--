@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+        }
+
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 10px;
+            width: 200px;
+            text-align: center;
+        }
+
+        .card img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+
+        {% for index, row in matching_products_random.iterrows %}
+        <div class="card">
+            <img src="{{ row.Product_Image_URL }}" alt="Product Image">
+            <h3>{{ row.Product_Name }}</h3>
+            <p>Price: ${{ row.Product_Price }}</p>
+            <p>Category: {{ row.Product_Category }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <div>
+
+        <h1> Similar product</h1>
+        <div>
+            {% for index, row in similar_products.iterrows %}
+            <div class="card">
+                <img src="{{ row.Product_Image_URL }}" alt="Product Image">
+                <h3>{{ row.Product_Name }}</h3>
+                <p>Price: Rs.{{ row.Product_Price }}</p>
+                <p>Category: {{ row.Product_Category }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>

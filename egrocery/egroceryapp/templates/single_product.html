@@ -1,0 +1,176 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<section id="selling-product" class="single-product mt-0 mt-md-5">
+  <div class="container-fluid">
+    <nav class="breadcrumb">
+      <a class="breadcrumb-item" href="{% url 'index' %}">Home</a>
+
+      <span class="breadcrumb-item active" aria-current="page">Single Product</span>
+    </nav>
+    <div class="row g-2">
+      <div class="col-lg-7">
+        <div class="row flex-column-reverse flex-lg-row justify-content-md-center">
+          
+          <div class="col-md-12 col-lg-10">
+            <!-- product-large-slider -->
+            <div class="swiper product-large-slider">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                  <div class="image-zoom" data-scale="2.5" data-image="images/product-large-1.jpg"><img
+                      src="{{ product_Image_URL }}" alt="product-large" class="img-fluid object-fit" ></div>
+                </div>
+
+              </div>
+              <div class="swiper-pagination"></div>
+            </div>
+            <!-- / product-large-slider -->
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="product-info">
+          <div class="element-header">
+            <h2 itemprop="name" class="display-6">{{ product_name }}</h2>
+            <div class="rating-container d-flex gap-0 align-items-center">
+              {% for star in "12345" %}
+              {% with rating=star|add:'0' %}
+              <div
+                class="rating{% if rating < Product_dtl_rating %} filled{% endif %}{% if rating == Product_dtl_rating and Product_dtl_rating == '0.5' %} half-filled{% endif %}"
+                data-rating="{{ Product_dtl_rating }}">
+                <svg width="32" height="32"
+                  class="{% if rating < Product_dtl_rating %}text-primary{% else %}text-secondary{% endif %}">
+                  {% if rating == Product_dtl_rating and Product_dtl_rating == '0.5' %}
+
+                  <use xlink:href="#star-half-solid"></use>
+                  {% else %}
+                  <use xlink:href="#star-solid"></use>
+                  {% endif %}
+                </svg>
+              </div>
+              {% endwith %}
+              {% endfor %}
+              <span class="rating-count">{{ Product_dtl_rating }}</span>
+            </div>
+
+
+
+          </div>
+          <div class="product-price pt-3 pb-3">
+            <strong class="text-primary display-6 fw-bold">₹ {{ product_Price }}</strong>
+          </div>
+          <p>{{product_name}}</p>
+          <div class="cart-wrap py-1">
+
+
+            <div class="stock-button-wrap">
+
+
+              <div class="qty-button d-flex flex-wrap pt-1">
+
+                <form method="POST" class="wishlist-form" data-product-id="{{ Product_dtl_id }}" novalidate>
+                  {% csrf_token %}
+                  <!-- Updated hidden input field for quantity -->
+                  <input type="hidden" name="quantity" class="form-control input-number" value="1">
+                  <input type="hidden" name="product_price" class="form-control input-number" value="{{product_Price}}">
+                  <button class=" add-to-cart-button btn btn-dark py-3 px-4 text-uppercase mt-3" type="button">Add to
+                    Cart
+                    <iconify-icon icon="uil:shopping-cart"></iconify-icon>
+                  </button>
+                </form>
+
+              </div>
+            </div>
+            <!-- Product_dtl_id -->
+          </div>
+        </div>
+        <div class="meta-product py-2">
+
+          <div class="meta-item d-flex align-items-baseline">
+            <h6 class="item-title no-margin pe-2">Category:</h6>
+            <ul class="select-list list-unstyled d-flex">
+              <li data-value="S" class="select-item">
+                <span>{{ product_category }}</span>
+              </li>
+
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
+
+
+<section id="related-products" class="product-store position-relative py-5">
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-md-12">
+
+        <div class="section-header d-flex justify-content-between my-5">
+
+          <h2 class="section-title">Recommended Prodcuts</h2>
+
+          <div class="d-flex align-items-center">
+            <div class="swiper-buttons">
+              <button class="swiper-prev products-carousel-prev btn btn-primary">❮</button>
+              <button class="swiper-next products-carousel-next btn btn-primary">❯</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+
+        <div class="products-carousel swiper">
+          <div class="swiper-wrapper">
+            {% for prd in matching_products_random %}
+
+
+            <div class="product-item swiper-slide">
+
+              <figure class="text-center">
+                <a href="{% url 'single_product' prd.Product_detail_id %}" title="Product Title">
+                  <img src="{{ prd.Product_Image_URL }}" class="figure-img img-fluid rounded"
+                    style="min-height: 200px;">
+
+                </a>
+              </figure>
+              <h3 class="text-truncate" style="max-width: 200px;">{{ prd.Product_Name }}</h3>
+              <span class="price">₹ {{ prd.Product_Price}}</span>
+              <div class="d-flex align-items-center justify-content-between">
+
+                <form method="POST" class="wishlist-form" data-product-id="{{ prd.Product_detail_id }}" novalidate>
+                  {% csrf_token %}
+                  <!-- Updated hidden input field for quantity -->
+                  <input type="hidden" name="quantity" class="form-control input-number" value="1">
+                  <input type="hidden" name="product_price" class="form-control input-number"
+                    value="{{prd.Product_Price}}">
+                  <button class=" add-to-cart-button btn btn-dark py-2 px-3 text-uppercase btn-rounded-none"
+                    type="button">Add to
+                    Cart
+                    <iconify-icon icon="uil:shopping-cart"></iconify-icon>
+                  </button>
+                </form>
+              </div>
+            </div>
+            {% endfor %}
+
+          </div>
+        </div>
+        <!-- / products-carousel -->
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

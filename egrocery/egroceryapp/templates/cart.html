@@ -1,0 +1,242 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+
+
+<section class="py-5">
+  <div class="container-fluid">
+    {% if context_list %}
+    <div class="row g-5">
+      <div class="col-md-8">
+
+        <div class="table-responsive cart">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" class="card-title text-uppercase text-muted">Product</th>
+                <th scope="col" class="card-title text-uppercase text-muted">Quantity</th>
+                <th scope="col" class="card-title text-uppercase text-muted">Subtotal</th>
+                <th scope="col" class="card-title text-uppercase text-muted"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for cart_user_data in context_list %}
+              <tr>
+                <td scope="row" class="py-4">
+                  <div class="cart-info d-flex flex-wrap align-items-center mb-4">
+                    <div class="col-lg-3">
+                      <div class="card-image">
+                        <img src="{{ cart_user_data.detail.Product_Image_URL }}" alt="cloth" class="img-fluid">
+                      </div>
+                    </div>
+                    <div class="col-lg-9">
+                      <div class="card-detail ps-3">
+                        <h5 class="card-title text-truncate" style="max-width: 350px;">
+                          <a href="#" class="text-decoration-none">{{ cart_user_data.detail.Product_Name }}</a>
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-4">
+                  <div class="input-group product-qty w-50">
+                    <span class="input-group-btn">
+                      <button type="button" class="quantity-btn btn btn-light btn-number update-btn" data-type="minus"
+                        data-cart-item-id="{{ cart_user_data.item.prodcut_Id_Add }}">
+                        <svg width="16" height="16">
+                          <use xlink:href="#minus"></use>
+                        </svg>
+                      </button>
+                    </span>
+                    <input type="text" id="quantity_{{ cart_user_data.item.prodcut_Id_Add }}" name="quantity"
+                      class="form-control input-number text-center" value="{{ cart_user_data.item.quantity }}" readonly>
+                    <span class="input-group-btn">
+                      <button type="button" class="quantity-btn btn btn-light btn-number update-btn" data-type="plus"
+                        data-cart-item-id="{{ cart_user_data.item.prodcut_Id_Add }}">
+                        <svg width="16" height="16">
+                          <use xlink:href="#plus"></use>
+                        </svg>
+                      </button>
+                    </span>
+                  </div>
+
+                </td>
+                <td class="py-4">
+                  <div class="total-price">
+                    <span class="money text-dark subtotal"
+                      data-cart-item-id="{{ cart_user_data.item.prodcut_Id_Add }}">₹
+                      {{cart_user_data.item.subtotal_price }} </span>
+                  </div>
+                </td>
+                <td class="py-4">
+                  <div class="cart-remove">
+                    <button class="delete-btn btn btn-dark py-2 px-2 text-uppercase btn-rounded-none"
+                      data-cart-item-id="{{ cart_user_data.item.prodcut_Id_Add }}">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                        class="bi bi-trash" viewBox="0 0 16 16">
+                        <path
+                          d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                        <path
+                          d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                      </svg>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+      <div class="col-md-4">
+        <div class="cart-totals bg-grey py-5">
+          <h4 class="text-dark pb-4">Cart Total</h4>
+          <div class="total-price pb-5">
+            <table cellspacing="0" class="table text-uppercase">
+              <tbody>
+
+                <tr class="order-total pt-2 pb-2">
+                  <th>Total</th>
+                  <td data-title="Total">
+                    <span class="price-amount amount text-dark ps-5">
+
+                      <span class="price-currency-symbol total_price_of_cart">₹ {{ total_price }}</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr class="order-total pt-2 pb-2 border-bottom">
+                  <th>Total Discount <sup><span data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="* 5% off, above ₹1000, * 10% off, above ₹2000"><svg xmlns="http://www.w3.org/2000/svg"
+                          width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+                          <path
+                            d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2" />
+                        </svg></span></sup></th>
+                  <td data-title="Total">
+                    <span class="price-amount amount text-dark ps-5">
+                      {% if  discounted_price %}
+                      <span class="price-currency-symbol discount_price_col" style="color: green;">₹
+                        {{discounted_price}}</span>
+                        {% else %}
+                        <span class="price-currency-symbol discount_price_col" style="color: green;">₹
+                          0</span>
+                        {% endif %}
+                    </span>
+                  </td>
+                </tr>
+                <tr class="order-total pt-2 pb-2 border-bottom">
+                  <th>Grand Total </th>
+                  <td data-title="Total">
+                    <span class="price-amount amount text-dark ps-5">
+
+                      <span class="price-currency-symbol ">₹ {{grand_totalPrice }}</span>
+                    </span>
+
+
+
+                  </td>
+                </tr>
+                <tr class="order-total pt-2 pb-2 border-bottom">
+
+                  <td data-title="Total">
+                    <span class="price-amount amount text-dark ps-5">
+
+
+                    </span>
+
+
+
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="button-wrap row g-2">
+            <form id="payment-form">
+              {% csrf_token %}
+
+              <input type="number" id="amount" name="amount" value="{{ grand_totalPrice }}" hidden required>
+
+
+              <div class="col-md-12"><button class="btn btn-primary py-3 px-4 text-uppercase btn-rounded-none w-100"
+                  id="pay-button">Proceed to checkout</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    {% else %}
+    <div class="d-flex justify-content-center">
+      <div><iframe src="https://lottie.host/embed/e511f10a-5af2-41eb-b216-c1d813824eee/ExXa3kifBx.json" width="400" height="400"></iframe></div>
+    </div>
+    <div class="d-flex justify-content-center">
+
+      <div>
+
+        <a href="{% url 'shop' %}">
+          <div class="col-md-12"><button class="btn btn-primary py-3 px-4 text-uppercase btn-rounded-none w-100">Shop
+              Now</button></div>
+        </a>
+      </div>
+      <div>
+
+        <a href="{% url 'order_history' %}">
+          <div class="col-md-12 px-5"><button
+              class="btn btn-success py-3 px-4 text-uppercase btn-rounded-none w-100">Orders</button></div>
+        </a>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container-fluid">
+
+    <div class="bg-secondary py-5 my-5 rounded-5"
+      style="background: url('images/bg-leaves-img-pattern.png') no-repeat;">
+      <div class="container my-5">
+        <div class="row">
+          <div class="col-md-6 p-5">
+            <div class="section-header">
+              <h2 class="section-title display-4">Get <span class="text-dark">25% Discount</span> on your first
+                purchase</h2>
+            </div>
+
+          </div>
+          <div class="col-md-6 p-5">
+            <form>
+              <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control form-control-lg" name="name" id="name" placeholder="Name">
+              </div>
+              <div class="mb-3">
+                <label for="" class="form-label">Email</label>
+                <input type="email" class="form-control form-control-lg" name="email" id="email"
+                  placeholder="abc@mail.com">
+              </div>
+              <div class="form-check form-check-inline mb-3">
+                <label class="form-check-label" for="subscribe">
+                  <input class="form-check-input" type="checkbox" id="subscribe" value="subscribe">
+                  Subscribe to the newsletter</label>
+              </div>
+              <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-dark btn-lg">Submit</button>
+              </div>
+            </form>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+{% endblock %}

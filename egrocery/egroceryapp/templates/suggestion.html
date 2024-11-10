@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <!-- Include jQuery UI -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+</head>
+
+<body>
+    <div class="col-11 col-md-7">
+        <form id="search-form" class="text-center" method="get" action="{% url 'search_results_suggestion' %}">
+            <input type="text" name="query" id="search-input" class="form-control border-0 bg-transparent"
+                placeholder="Search for more than 20,000 products" />
+        </form>
+
+    </div>
+
+    <script>
+        jQuery(document).ready(function () {
+            // Set up autocomplete for the search input
+            jQuery('#search-input').autocomplete({
+                source: function (request, response) {
+                    // Fetch suggestions from the server
+                    jQuery.ajax({
+                        url: '/multipleSuggestion/',
+                        dataType: 'json',
+                        data: {
+                            q: request.term
+                        },
+                        success: function (data) {
+                            response(data);
+                        }
+                    });
+                },
+                minLength: 2,  // Minimum number of characters before making a request
+                select: function (event, ui) {
+                    // Optionally handle the selected suggestion here
+                    console.log('Selected:', ui.item);
+                },
+                // Render each suggestion item
+                focus: function (event, ui) {
+                    jQuery('#search-input').val(ui.item.Product_Name);
+                    return false;
+                },
+                // Display the selected suggestion in the input field
+                select: function (event, ui) {
+                    jQuery('#search-input').val(ui.item.Product_Name);
+                    // Optionally handle the selected suggestion here
+                    console.log('Selected:', ui.item);
+                    return false;
+                },
+                // Format the display of each suggestion
+                messages: {
+                    noResults: '',
+                    results: function (count) { }
+                }
+            })
+            .autocomplete('instance')._renderItem = function (ul, item) {
+                return jQuery('<li>')
+                    .append('<div>' + item.Product_Name + ' - ' + item.Product_Category + '</div>')
+                    .appendTo(ul);
+            };
+        });
+    </script>
+</body>
+
+</html>

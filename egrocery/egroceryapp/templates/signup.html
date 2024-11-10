@@ -1,0 +1,133 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+
+<section class="py-5 mb-5" style="background: url(images/background-pattern.jpg);">
+  <!-- <div class="container-fluid">
+        <div class="d-flex justify-content-between">
+            <h1 class="page-title pb-2">Login</h1>
+            <nav class="breadcrumb fs-6">
+                <a class="breadcrumb-item nav-link" href="#">Home</a>
+                <a class="breadcrumb-item nav-link" href="#">Pages</a>
+                <span class="breadcrumb-item active" aria-current="page">Checkout</span>
+            </nav>
+        </div>
+    </div> -->
+  {% if request.user.is_authenticated %}
+  <div class="container-sm">
+    <div class="row justify-content-center">
+      <div class="col-lg-4 p-5 bg-white border shadow-sm">
+        <h5 class="text-uppercase mb-4">MY ACCOUNT DETAILS</h5>
+        <div class="px-4 py-3" role="none">
+          <p class="text-sm text-gray-900 dark:text-white" role="none">
+            {{ user.username }}
+          </p>
+          <p>
+            <a href="{% url 'logout' %}" class="nav-link"><button type="submit" name="submit"
+                class="btn btn-primary text-uppercase w-100">Log out</button></a>
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  {% else %}
+  <section>
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          
+              <h2 class="card-title text-center">Sign Up</h2>
+              <form class=" position-relative rounded shadow p-4 mb-5 bg-white rounded" method="post">
+
+                {% csrf_token %}
+                <div class="row p-3 ">
+                  <div class="col-sm-6 ">
+                    <label for="first_name" class="p-1"> Name</label>
+                    <input type="text" name="first_name" id="first_name" class="form-control" >
+                    <div class="form_error">{{ form.errors.first_name }}</div>
+                  </div>
+                  <div class="col-sm-6">
+                    <label for="username" class="p-1">User Name</label>
+                    <input type="text" name="username" id="username" class="form-control" >
+
+                    <div class="form_error">{{ form.errors.username }}</div>
+                  </div>
+                </div>
+
+
+                <div class="row p-3 ">
+
+                  <div class="col-sm-6">
+                    <label for="mobile_number" class="p-1">Phone </label>
+
+                    <input type="tel" class="form-control" name="mobile_number" id="mobile_number" >
+                    <div class="form_error">{{ p_reg_form.errors.mobile_number }}</div>
+
+
+                  </div>
+                  <div class="col-sm-6">
+                    <label for="email" class="p-1">Email address</label>
+                    <input type="email" name="email" id="email" class="form-control" aria-describedby="emailHelp">
+                    
+                    <div class="form_error">{{ form.errors.email }}</div>
+                  </div>
+                </div>
+
+
+
+                <div class="row p-3">
+                  <div class="col-sm-6">
+                    <label for="password1" class="p-1">Password</label>
+                    <input type="password" name="password1" class="form-control" id="password1" >
+                    <div class="form_error">{{ form.errors.password1 }}</div>
+                  </div>
+                  <div class="col-sm-6">
+                    <label for="password2" class="p-1">Confirm Password</label>
+                    <input type="password" name="password2" class="form-control" id="password2"
+                     >
+                     <div class="form_error">{{ form.errors.password2 }}</div>
+                  </div>
+                  
+                </div>
+
+                <div class="row px-4 py-3 ">
+
+                  <div class="col">
+                    <label for="Address" class="p-1">Address </label>
+                    <input type="text" id="Address" name="Address" class="form-control" >
+                    <div class="form_error">{{ p_reg_form.errors.Address }}</div>
+                  </div>
+                 
+                  <div class="col-sm-3">
+                    <label for="pincode" class="p-1">Pin Code </label>
+                    <input type="text" id="pincode" name="pincode" class="form-control " >
+                    <div class="form_error">{{ p_reg_form.errors.pincode }}</div>
+
+                  </div>
+                </div>
+
+
+                <div class="col text-center p-3">
+
+                  <button type="submit" class="btn btn-primary text-uppercase w-100"
+                    style="width: 200px; height:100;">Sign Up</button>
+
+                </div>
+
+
+              </form>
+
+            
+        </div>
+      </div>
+    </div>
+
+  </section>
+  {% endif %}
+
+</section>
+
+
+{% endblock %}

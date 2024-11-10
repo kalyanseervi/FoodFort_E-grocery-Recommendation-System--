@@ -1,0 +1,171 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+
+
+<div class="shopify-grid">
+  <div class="container-fluid">
+    <div class="row g-5 d-flex justify-content-center">
+      
+
+      <main class="col-md-10 ">
+        
+
+        <div class="product-grid row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
+          {% if data_to_display|length > 0 %}
+          {% for index, row in data_to_display.iterrows %}
+          <div class="col">
+            <div class="product-item">
+              <!-- <a href="#" class="btn-wishlist"><svg width="24" height="24">
+                        <use xlink:href="#heart"></use>
+                    </svg></a> -->
+              <figure class="text-center">
+                <a href="{% url 'single_product' row.Product_detail_id %}" title="Product Title">
+                  <img src="{{ row.Product_Image_URL }}" class="figure-img img-fluid rounded"
+                    style="min-height: 200px;">
+                </a>
+              </figure>
+              <h3 class="text-truncate" style="max-width: 200px;">{{ row.Product_Name }}
+              </h3>
+              <span class="qty">{{ row.Product_Category }}</span>
+              <!-- <span class="rating"><svg
+                        width="24" height="24" class="text-primary">
+                        <use xlink:href="#star-solid"></use>
+                    </svg> 4.5</span> -->
+              <span class="price">₹ {{row.Product_Price}}</span>
+              <div class="d-flex align-items-center justify-content-between">
+                <div>
+                  <form method="POST" class="wishlist-form" data-product-id="{{ row.Product_detail_id }}" novalidate>
+                    {% csrf_token %}
+                    <!-- Updated hidden input field for quantity -->
+                    <input type="hidden" name="quantity" class="form-control input-number" value="1">
+                    <input type="hidden" name="product_price" class="form-control input-number"
+                      value="{{row.Product_Price}}">
+                    <button class=" add-to-cart-button btn btn-dark py-2 px-3 text-uppercase btn-rounded-none"
+                      type="button">Add to
+                      Cart
+                      <iconify-icon icon="uil:shopping-cart"></iconify-icon>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+          {% else %}
+          {% for index, row in similar_products.iterrows %}
+          <div class="col">
+            <div class="product-item">
+              <!-- <a href="#" class="btn-wishlist"><svg width="24" height="24">
+                        <use xlink:href="#heart"></use>
+                    </svg></a> -->
+              <figure class="text-center">
+                <a href="{% url 'single_product' row.Product_detail_id %}" title="Product Title">
+                  <img src="{{ row.Product_Image_URL }}" class="figure-img img-fluid rounded"
+                    style="min-height: 200px;">
+                </a>
+              </figure>
+              <h3 class="text-truncate" style="max-width: 200px;">{{ row.Product_Name }}
+              </h3>
+              <span class="qty">{{ row.Product_Category }}</span>
+              <!-- <span class="rating"><svg
+                        width="24" height="24" class="text-primary">
+                        <use xlink:href="#star-solid"></use>
+                    </svg> 4.5</span> -->
+              <span class="price">₹ {{row.Product_Price}}</span>
+              <div class="d-flex align-items-center justify-content-between">
+                <div>
+                  <form method="POST" class="wishlist-form" data-product-id="{{ row.Product_detail_id }}" novalidate>
+                    {% csrf_token %}
+                    <!-- Updated hidden input field for quantity -->
+                    <input type="hidden" name="quantity" class="form-control input-number" value="1">
+                    <input type="hidden" name="product_price" class="form-control input-number"
+                      value="{{row.Product_Price}}">
+                    <button class=" add-to-cart-button btn btn-dark py-2 px-3 text-uppercase btn-rounded-none"
+                      type="button">Add to
+                      Cart
+                      <iconify-icon icon="uil:shopping-cart"></iconify-icon>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+          {% endif %}
+
+
+
+        </div>
+        <!-- / product-grid -->
+
+        <nav class="text-center py-4" aria-label="Page navigation">
+          <ul class="pagination d-flex justify-content-center">
+            <li class="page-item disabled">
+              <a class="page-link bg-none border-0" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item active" aria-current="page"><a class="page-link border-0" href="#">1</a></li>
+            <li class="page-item"><a class="page-link border-0" href="#">2</a></li>
+            <li class="page-item"><a class="page-link border-0" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link border-0" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+      </main>
+
+    </div>
+  </div>
+</div>
+
+<section class="py-5">
+  <div class="container-fluid">
+
+    <div class="bg-secondary py-5 my-5 rounded-5"
+      style="background: url('images/bg-leaves-img-pattern.png') no-repeat;">
+      <div class="container my-5">
+        <div class="row">
+          <div class="col-md-6 p-5">
+            <div class="section-header">
+              <h2 class="section-title display-4">Get <span class="text-primary">25% Discount</span> on your first
+                purchase</h2>
+            </div>
+           
+          </div>
+          <div class="col-md-6 p-5">
+            <form>
+              <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control form-control-lg" name="name" id="name" placeholder="Name">
+              </div>
+              <div class="mb-3">
+                <label for="" class="form-label">Email</label>
+                <input type="email" class="form-control form-control-lg" name="email" id="email"
+                  placeholder="abc@mail.com">
+              </div>
+              <div class="form-check form-check-inline mb-3">
+                <label class="form-check-label" for="subscribe">
+                  <input class="form-check-input" type="checkbox" id="subscribe" value="subscribe">
+                  Subscribe to the newsletter</label>
+              </div>
+              <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-dark btn-lg">Submit</button>
+              </div>
+            </form>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

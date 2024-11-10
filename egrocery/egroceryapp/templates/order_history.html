@@ -1,0 +1,157 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+
+
+<section class="py-5">
+    <div class="container-fluid">
+
+        <div class="row g-5 d-flex justify-content-center">
+            <div class="col-md-8 ">
+
+                <div class="table-responsive cart ">
+                    <h2 class="text-uppercase text-center mb-4">Order History</h2>
+                    {% if order_details|length > 0 %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="card-title text-uppercase text-muted">Product</th>
+                                <th scope="col" class="card-title text-uppercase text-muted">Quantity</th>
+                                <th scope="col" class="card-title text-uppercase text-muted">Payment Status</th>
+                                <th scope="col" class="card-title text-uppercase text-muted"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {% for order_detail in order_details %}
+
+                            {% if order_detail.products|length > 0 %}
+                            {% for product in order_detail.products %}
+
+
+                            <tr>
+                                <td scope="row" class="py-4">
+                                    <div class="cart-info d-flex flex-wrap align-items-center mb-4">
+                                        <div class="col-lg-3">
+                                            <figure class="text-center">
+                                                <a href="#" title="{{product.product_detail.Product_Name}}">
+                                                  <img src="{{ product.product_detail.Product_Image_URL }}" class="figure-img img-fluid rounded"
+                                                    style="max-height: 100px;" >
+                                                </a>
+                                              </figure>
+                                            <!-- <div class="card-image">
+                                                <img src="" alt=""
+                                                    class="img-fluid w-50">
+                                            </div> -->
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <div class="card-detail ps-3">
+
+                                                <h5 class="card-title text-truncate" style="max-width: 350px;">
+                                                    <a href="#"
+                                                        class="text-decoration-none">{{product.product_detail.Product_Name}}</a>
+
+                                                </h5>
+                                                <p>Payment status:</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-4">
+                                    <div class="input-group product-qty w-50">
+
+                                        {{ product.quantity }}
+                                    </div>
+
+                                </td>
+                                <td class="py-4">
+                                    <div class="total-price bg-black fs-5  text-center rounded">
+                                        <span class="text-light ">
+                                            {{product.order_status}}</span>
+                                    </div>
+                                </td>
+
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                            <p>No products in this order.</p>
+                            {% endif %}
+
+
+                            {% endfor %}
+
+
+                        </tbody>
+                    </table>
+
+                    {% else %}
+                    <p>No order history available.</p>
+                    {% endif %}
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <a href="{% url 'shop' %}">
+                <div class="col-md-12"><button
+                        class="btn btn-primary py-3 px-4 text-uppercase btn-rounded-none w-100">Shop
+                        Now</button></div>
+            </a>
+        </div>
+
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container-fluid">
+
+        <div class="bg-secondary py-5 my-5 rounded-5"
+            style="background: url('images/bg-leaves-img-pattern.png') no-repeat;">
+            <div class="container my-5">
+                <div class="row">
+                    <div class="col-md-6 p-5">
+                        <div class="section-header">
+                            <h2 class="section-title display-4">Get <span class="text-dark">25% Discount</span> on your
+                                first
+                                purchase</h2>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6 p-5">
+                        <form>
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control form-control-lg" name="name" id="name"
+                                    placeholder="Name">
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Email</label>
+                                <input type="email" class="form-control form-control-lg" name="email" id="email"
+                                    placeholder="abc@mail.com">
+                            </div>
+                            <div class="form-check form-check-inline mb-3">
+                                <label class="form-check-label" for="subscribe">
+                                    <input class="form-check-input" type="checkbox" id="subscribe" value="subscribe">
+                                    Subscribe to the newsletter</label>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-dark btn-lg">Submit</button>
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+{% endblock %}
